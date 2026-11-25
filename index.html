@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YCC SOAR for Alumni</title>
+<meta name="description" content="SOAR is a student-led giving week for clubs at Yale.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,700;1,400&family=Public+Sans:wght@500;600&display=swap">
+<style>
+/* Four sections: a full-screen landing, two that read left to right, and the navy contact close. */
+:root {
+  --navy: #13326a;
+  --paper: #f9f7f3;
+  --mist: #e9eef5;
+  --slate: #8fa6c3;
+  --coral: #ee6f67;
+  --rule: #d5dce7;
+  --side: clamp(20px, 5vw, 72px);
+  --gap: clamp(24px, 4vw, 56px);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--navy); font: 18px/1.5 "Lora", Georgia, "Times New Roman", serif; }
+img { display: block; width: 100%; object-fit: cover; }
+h1, h2, h3, p { margin: 0; font-weight: 400; }
+h1, h2, h3 { text-wrap: balance; }
+a { color: inherit; }
+a:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+
+section { padding: clamp(56px, 8vw, 112px) var(--side); }
+.inner { max-width: 1200px; margin: 0 auto; }
+.label { font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; }
+h2 { font-size: clamp(34px, 4.6vw, 56px); line-height: 1.08; margin-top: 10px; }
+h3 { font-size: clamp(24px, 2.4vw, 29px); line-height: 1.15; }
+.head { display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--gap); align-items: end; }
+.head > p { font-size: clamp(18px, 1.7vw, 21px); max-width: 26em; }
+
+/* 1. Landing: title left, photo collage right, sized to its content */
+.bar { position: sticky; top: 0; z-index: 5; background: var(--navy); color: #fff; padding: 0 var(--side); font-family: "Public Sans", system-ui, sans-serif; }
+.bar .inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 56px; }
+.bar a { text-decoration: none; }
+.bar .brand { font-family: "Lora", Georgia, serif; font-size: 19px; font-weight: 700; white-space: nowrap; }
+.bar nav { display: flex; gap: clamp(14px, 3vw, 28px); font-size: 15px; font-weight: 500; }
+.bar nav a { color: #c9d5e8; }
+.bar nav a:hover { color: #fff; }
+/* Land with the heading just under the bar, skipping most of the section's top padding */
+section[id] { scroll-margin-top: calc(56px + 24px - clamp(56px, 8vw, 112px)); }
+#top { scroll-margin-top: 56px; }
+/* Fills the screen under the bar, with the content centered vertically */
+.landing { min-height: calc(100vh - 56px); min-height: calc(100svh - 56px); display: flex; align-items: center; padding-top: clamp(32px, 4vw, 56px); padding-bottom: clamp(32px, 4vw, 56px); overflow: hidden; }
+.landing > .inner { width: 100%; }
+.landing .inner { display: grid; grid-template-columns: 1fr 1.05fr; gap: var(--gap); align-items: center; }
+h1 { font-size: clamp(46px, min(8vw, 10vh), 92px); font-weight: 500; line-height: 1.08; letter-spacing: -.01em; }
+.landing .thesis { font-size: clamp(21px, 2.6vw, 27px); margin-top: 22px; }
+.landing .what { font-style: italic; font-size: clamp(18px, 2vw, 21px); color: #4d5f7e; margin-top: 8px; }
+.landing .founded { font-size: 16.5px; margin-top: 18px; max-width: 30em; }
+.landing .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.btn { font: 600 16px/1.2 "Public Sans", system-ui, sans-serif; text-decoration: none; padding: 14px 22px; border: 2px solid var(--navy); border-radius: 2px; background: var(--navy); color: #fff; transition: transform .15s; }
+.btn:hover { transform: translateY(-2px); }
+.btn.ghost { background: transparent; color: var(--navy); }
+.btn.coral { background: var(--coral); border-color: var(--coral); color: #fff; }
+.collage { position: relative; padding-left: 22px; margin-top: 44px; }
+.collage::before { content: ""; position: absolute; left: 0; top: -22px; width: 62%; height: 86%; background: var(--slate); }
+.collage .crowd { position: relative; aspect-ratio: 575 / 320; }
+.collage .speakers { position: absolute; right: -8px; top: -64px; width: 44%; border: 5px solid var(--paper); animation: drift 7s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: translateY(0) rotate(-.6deg); } to { transform: translateY(-10px) rotate(.8deg); } }
+@media (prefers-reduced-motion: reduce) { .collage .speakers { animation: none; } }
+@media (max-width: 860px) { .landing .inner { grid-template-columns: 1fr; } .collage { margin-top: 64px; } }
+
+/* Donate: fixed just under the bar at the top right; pulses after 30 seconds on the page */
+.donate-float {
+  position: fixed; top: calc(56px + 14px); right: max(16px, calc(var(--side) - 8px)); z-index: 30;
+  font: 600 16px/1 "Public Sans", system-ui, sans-serif; text-decoration: none;
+  background: var(--coral); color: #fff; padding: 14px 22px; border-radius: 2px;
+  box-shadow: 0 6px 18px rgba(19, 50, 106, .25);
+  transition: transform .15s, background .15s;
+}
+.donate-float:hover { background: #dc5a52; transform: translateY(-2px); }
+.donate-float:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+.donate-float.pulse { animation: pulse 2.4s ease-in-out infinite; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 6px 18px rgba(19, 50, 106, .25), 0 0 0 0 rgba(238, 111, 103, .55); transform: scale(1); }
+  50% { box-shadow: 0 6px 18px rgba(19, 50, 106, .25), 0 0 0 12px rgba(238, 111, 103, 0); transform: scale(1.04); }
+}
+/* Hand-drawn arrow (traced from the brochure's sign-up arrow) that draws in after 15 seconds */
+.donate-arrow {
+  position: absolute; right: calc(100% + 8px); top: calc(50% - 11px); width: 140px; height: 56px;
+  pointer-events: none; overflow: visible; visibility: hidden;
+}
+.donate-arrow path { fill: none; stroke: var(--coral); stroke-width: 11; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.donate-arrow polygon { fill: var(--coral); opacity: 0; }
+.point .donate-arrow { visibility: visible; }
+.point .donate-arrow path { animation: draw .9s ease-out forwards; }
+.point .donate-arrow polygon { animation: appear .2s ease-out .85s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes appear { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .donate-float.pulse { animation: none; }
+  .point .donate-arrow path { animation: none; stroke-dashoffset: 0; }
+  .point .donate-arrow polygon { animation: none; opacity: 1; }
+}
+@media (max-width: 720px) {
+  .donate-float { padding: 12px 18px; font-size: 15px; }
+  .donate-arrow { width: 100px; height: 40px; top: calc(50% - 8px); }
+  .landing { padding-top: 76px; } /* keep the title clear of the Donate button */
+}
+
+/* Webinar invite: one navy strip between the landing and the priorities */
+.invite { background: var(--navy); color: #fff; padding-block: clamp(28px, 3.6vw, 44px); }
+.invite .inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 40px; }
+.invite h2 { color: #fff; font-size: clamp(26px, 3vw, 36px); margin: 0; }
+.invite p { color: #c9d5e8; margin-top: 6px; max-width: 34em; }
+.invite .when { color: #fff; font-weight: 700; }
+.invite .btn { background: var(--coral); border-color: var(--coral); color: #fff; white-space: nowrap; }
+
+/* 2. Priorities: three across, staggered */
+.trio { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(20px, 2.6vw, 36px); margin-top: clamp(32px, 5vw, 64px); align-items: start; }
+.trio img { aspect-ratio: 4 / 3; }
+.trio h3 { margin-top: 18px; }
+.trio p { margin-top: 8px; }
+.trio > div:nth-child(2) { margin-top: clamp(28px, 5vw, 72px); }
+.trio > div:nth-child(4) { margin-top: clamp(28px, 5vw, 72px); }
+
+/* 3. Clubs: statement, stat, photo, involvement in one row */
+.clubs { background: var(--mist); }
+.row { display: grid; grid-template-columns: 1fr 1.15fr .85fr 1fr; gap: var(--gap); margin-top: clamp(32px, 5vw, 64px); align-items: stretch; }
+.row > div { align-self: center; }
+.row h3 + p, .row p + p { margin-top: 10px; }
+.row .stat { align-self: stretch; background: var(--navy); color: #fff; padding: clamp(22px, 2.6vw, 36px); display: flex; flex-direction: column; justify-content: center; font-size: 20px; }
+.stat b { font-weight: 400; font-size: clamp(40px, 4.4vw, 64px); line-height: 1.02; margin-bottom: 10px; }
+.row img { aspect-ratio: 3 / 4; height: 100%; }
+.closing { font-weight: 700; font-size: clamp(24px, 3vw, 36px); line-height: 1.2; margin-top: clamp(36px, 5vw, 64px); max-width: 24em; }
+
+/* 4. Stay connected */
+.back { background: var(--navy); color: #fff; }
+.back .inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: var(--gap); align-items: start; }
+.back p { margin-top: 14px; }
+.back a { overflow-wrap: anywhere; }
+.back .donate { font-size: clamp(23px, 2.6vw, 31px); line-height: 1.25; margin-top: 28px; }
+.back img.table { aspect-ratio: 16 / 9; }
+.contact { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-top: 24px; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, .25); }
+.contact p { margin-top: 4px; }
+.contact .signup { color: var(--coral); font-weight: 700; font-size: 22px; line-height: 1.3; margin-top: 12px; display: inline-block; }
+.contact img { width: 128px; height: 128px; flex: none; background: #fff; padding: 5px; }
+
+@media (max-width: 980px) {
+  .row { grid-template-columns: 1fr 1fr; }
+  .row img { aspect-ratio: 4 / 3; }
+  .trio { grid-template-columns: 1fr 1fr; }
+  .trio > div { margin-top: 0 !important; }
+}
+@media (max-width: 720px) {
+  .head, .back .inner { grid-template-columns: 1fr; }
+  .trio { grid-template-columns: 1fr; gap: 22px; }
+  .trio > div { display: grid; grid-template-columns: 38% 1fr; gap: 0 16px; align-items: center; margin-top: 0 !important; }
+  .trio img { grid-row: span 2; }
+  .trio h3 { margin-top: 0; align-self: end; }
+  .trio p { align-self: start; }
+  .row { grid-template-columns: 1fr; }
+  .row img { aspect-ratio: 16 / 10; }
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="inner">
+    <a class="brand" href="#top">YCC SOAR</a>
+    <nav aria-label="Sections">
+      <a href="#priorities">At stake</a>
+      <a href="#clubs">Clubs</a>
+      <a href="#connect">Get involved</a>
+    </nav>
+  </div>
+</header>
+
+<section class="landing" id="top">
+  <div class="inner">
+    <div>
+      <h1>Yale College <em>Council</em> SOAR</h1>
+      <p class="thesis">Help us protect the Yale experience.</p>
+      <p class="what">SOAR is a student-led giving week for clubs at Yale.</p>
+      <p class="founded">Founded in 1972, the Yale College Council seeks to solve campus issues and connect the students with the administration. We've recently worked on <b>bringing back summer storage, as well as preserving summer grants!</b></p>
+      <div class="cta">
+        <a class="btn" href="#priorities">See what's at stake</a>
+        <a class="btn ghost" href="#connect">Get involved</a>
+        <a class="btn coral" href="https://www.givecampus.com/schools/YaleUniversity/yalesoar/pages/ycc" target="_blank" rel="noopener">Donate</a>
+      </div>
+    </div>
+    <div class="collage">
+      <img class="crowd" src="assets/commencement.jpg" alt="Graduates in caps and gowns filling Old Campus at commencement">
+      <img class="speakers" src="assets/speakers.jpg" alt="Two Yale College Council students speaking into microphones">
+    </div>
+  </div>
+</section>
+
+<!-- Webinar invite. Not scheduled yet: the button points to the SOAR sign-up form for now.
+     Once it is scheduled, put the date in .when and swap the href for the Zoom registration link. -->
+<section class="invite" id="webinar">
+  <div class="inner">
+    <div>
+      <h2>You're invited: The State of the Council</h2>
+      <p><span class="when">A Zoom webinar for alumni, coming soon.</span> Hear from the students behind SOAR and bring your questions.</p>
+    </div>
+    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSc6VM24k6OG_Eb18QbZz6-rW_D-_8MGqMkJ60OZex1qTrxAsA/viewform" target="_blank" rel="noopener">Get notified</a>
+  </div>
+</section>
+
+<section id="priorities">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <p class="label">Student priorities</p>
+        <h2>The Yale Experience is Under Attack</h2>
+      </div>
+      <p>The YCC is working with the administration to preserve these institutions of the Yale Experience.</p>
+    </div>
+    <div class="trio">
+      <div>
+        <img src="assets/buttery.jpg" alt="Two students making food behind a buttery counter">
+        <h3>Butteries &amp; Dining halls</h3>
+        <p>Butteries have been shut down and dining halls are restricted.</p>
+      </div>
+      <div>
+        <img src="assets/printing.jpg" alt="A student tapping a Yale ID on a campus printer">
+        <h3>Educational Tools</h3>
+        <p>Summer storage was cut. Printing and course materials costs keep growing. These hit FGLI students hardest.</p>
+      </div>
+      <div>
+        <img src="assets/mentorship.jpg" alt="A student shaking hands with a Yale graduate">
+        <h3>Mentorship</h3>
+        <p>We want to connect with Yale graduates for advice on academics and life beyond Yale.</p>
+      </div>
+      <div>
+        <img src="assets/intramurals.webp" alt="A Yale softball team posing for a team photo in striped uniforms">
+        <h3>Intramurals &amp; Spring Fling</h3>
+        <p>We want to support intramural sports, Spring Fling and other fun student activities on campus.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="clubs" id="clubs">
+  <div class="inner">
+    <p class="label">Student organizations</p>
+    <h2>Funding Campus Community</h2>
+    <div class="row">
+      <div>
+        <h3>Clubs make Yale, Yale.</h3>
+        <p>Most communities on campus are unable to support the visions they have for the year.</p>
+      </div>
+      <div class="stat"><b>Only 1 in 4 Clubs</b>Receive the funding they need.</div>
+      <img src="assets/cooking.jpg" alt="Students cooking together in a college kitchen">
+      <div>
+        <h3>Campus Involvement</h3>
+        <p>Alumni mention <b>intramurals, being a big sib</b> and <b>volunteering</b> in New Haven.</p>
+        <p>We want to keep making that happen.</p>
+      </div>
+    </div>
+    <p class="closing">We want each and every Bulldog to have the experience we all come to Yale for.</p>
+  </div>
+</section>
+
+<section class="back" id="connect">
+  <div class="inner">
+    <div>
+      <p class="label">Yale College Council</p>
+      <h2>Stay connected</h2>
+      <p>We want to collaborate on issues important to alumni and students! Reach out with any thoughts or ideas you have!</p>
+      <p>To learn about SOAR, mentorship, or other ways to get involved, contact our team at: <a href="mailto:meghana.hebbar@yale.edu">meghana.hebbar@yale.edu</a> and <a href="mailto:wynter.radey-morgan@yale.edu">wynter.radey-morgan@yale.edu</a></p>
+      <p class="donate">We have too many things to fix to mention here, but we need your help. <b><a href="https://www.givecampus.com/schools/YaleUniversity/yalesoar/pages/ycc" target="_blank" rel="noopener">Please consider donating.</a></b></p>
+    </div>
+    <div>
+      <img class="table" src="assets/alumni-table.jpg" alt="Alumni and students talking around a table">
+      <div class="contact">
+        <div>
+          <h3>Contact the YCC</h3>
+          <p><a href="mailto:ycc@yale.edu">ycc@yale.edu</a></p>
+          <p><a href="https://ycc.yale.edu">ycc.yale.edu</a></p>
+          <p>@yalecollegecouncil</p>
+          <a class="signup" href="https://docs.google.com/forms/d/e/1FAIpQLSc6VM24k6OG_Eb18QbZz6-rW_D-_8MGqMkJ60OZex1qTrxAsA/viewform">Please Sign Up!<br>More SOAR info!</a>
+        </div>
+        <img src="assets/qr.png" alt="QR code for the SOAR sign-up form">
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="donate-float" id="donate" href="https://www.givecampus.com/schools/YaleUniversity/yalesoar/pages/ycc" target="_blank" rel="noopener">Donate<svg class="donate-arrow" viewBox="0 0 400 160" aria-hidden="true"><path pathLength="1" d="M18 140 C70 122 120 108 160 104 C185 101 200 118 188 124 C172 132 150 112 156 92 C162 74 200 70 240 64 C280 58 315 55 338 49"/><polygon points="372,33 308,42 331,53 324,72"/></svg></a>
+
+<script>
+  // After 15 seconds the arrow draws in beside the Donate button; after 30 seconds the button starts a gentle pulse.
+  var donate = document.getElementById("donate");
+  setTimeout(function () { donate.classList.add("point"); }, 15000);
+  setTimeout(function () { donate.classList.add("pulse"); }, 30000);
+</script>
+</body>
+</html>
