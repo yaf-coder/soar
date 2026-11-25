@@ -65,6 +65,9 @@ h1 { font-size: clamp(46px, min(8vw, 10vh), 92px); font-weight: 500; line-height
 .btn:hover { transform: translateY(-2px); }
 .btn.ghost { background: transparent; color: var(--navy); }
 .btn.coral { background: var(--coral); border-color: var(--coral); color: #fff; }
+.btn.light { background: transparent; border-color: #c9d5e8; color: #fff; }
+.back .match { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 20px; color: #c9d5e8; }
+.back .match .btn { text-decoration: none; }
 .collage { position: relative; padding-left: 22px; margin-top: 44px; }
 .collage::before { content: ""; position: absolute; left: 0; top: -22px; width: 62%; height: 86%; background: var(--slate); }
 .collage .crowd { position: relative; aspect-ratio: 575 / 320; }
@@ -191,6 +194,7 @@ h1 { font-size: clamp(46px, min(8vw, 10vh), 92px); font-weight: 500; line-height
         <a class="btn" href="#priorities">See what's at stake</a>
         <a class="btn ghost" href="#connect">Get involved</a>
         <a class="btn coral" href="https://www.givecampus.com/schools/YaleUniversity/yalesoar/pages/ycc" target="_blank" rel="noopener">Donate</a>
+        <a class="btn ghost" href="https://ww2.matchinggifts.com/yale" target="_blank" rel="noopener">Employer matching</a>
       </div>
     </div>
     <div class="collage">
@@ -275,6 +279,7 @@ h1 { font-size: clamp(46px, min(8vw, 10vh), 92px); font-weight: 500; line-height
       <p>We want to collaborate on issues important to alumni and students! Reach out with any thoughts or ideas you have!</p>
       <p>To learn about SOAR, mentorship, or other ways to get involved, contact our team at: <a href="mailto:meghana.hebbar@yale.edu">meghana.hebbar@yale.edu</a> and <a href="mailto:wynter.radey-morgan@yale.edu">wynter.radey-morgan@yale.edu</a></p>
       <p class="donate">We have too many things to fix to mention here, but we need your help. <b><a href="https://www.givecampus.com/schools/YaleUniversity/yalesoar/pages/ycc" target="_blank" rel="noopener">Please consider donating.</a></b></p>
+      <p class="match">Many employers match their employees' gifts. <a class="btn light" href="https://ww2.matchinggifts.com/yale" target="_blank" rel="noopener">Check employer matching</a></p>
     </div>
     <div>
       <img class="table" src="assets/alumni-table.jpg" alt="Alumni and students talking around a table">
@@ -304,6 +309,7 @@ h1 { font-size: clamp(46px, min(8vw, 10vh), 92px); font-weight: 500; line-height
     if (!a || !window.posthog) return;
     var where = a.id === "donate" ? "floating button" : (a.closest("section") || {}).id || "page";
     if (a.href.indexOf("givecampus.com") > -1) posthog.capture("donate_clicked", { location: where });
+    else if (a.href.indexOf("matchinggifts.com") > -1) posthog.capture("employer_matching_clicked", { location: where });
     else if (a.href.indexOf("docs.google.com/forms") > -1) posthog.capture("signup_clicked", { location: where });
   });
   setTimeout(function () { donate.classList.add("point"); }, 15000);
