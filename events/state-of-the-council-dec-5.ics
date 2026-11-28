@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Yale College Council//SOAR//EN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:state-of-the-council-dec-5@yalecollegecouncil.org
+DTSTAMP:20261128T000000Z
+DTSTART:20261205T170000Z
+DTEND:20261205T180000Z
+SUMMARY:The State of the Council (Yale College Council)
+LOCATION:https://yale.zoom.us/j/99464833176
+URL:https://yale.zoom.us/j/99464833176
+DESCRIPTION:Join on Zoom: https://yale.zoom.us/j/99464833176\nMeeting ID: 994 6483 3176\nPhone: 203-432-9666 or 646 568 7788 (One tap: +12034329666,,99464833176#)\nHosted by the Yale College Council. https://yalecollegecouncil.org
+BEGIN:VALARM
+TRIGGER:-PT30M
+ACTION:DISPLAY
+DESCRIPTION:The State of the Council starts in 30 minutes
+END:VALARM
+END:VEVENT
+END:VCALENDAR
