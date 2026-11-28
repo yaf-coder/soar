@@ -124,6 +124,9 @@ h1 { font-size: clamp(46px, min(8vw, 10vh), 92px); font-weight: 500; line-height
 .invite .notify { background: transparent; border-color: #c9d5e8; color: #fff; }
 .sessions { list-style: none; margin: clamp(24px, 3vw, 36px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .session { border-top: 3px solid var(--coral); background: rgba(255, 255, 255, .06); padding: 20px 22px 18px; display: flex; flex-direction: column; gap: 6px; }
+.session .toggle { all: unset; display: flex; flex-direction: column; gap: 6px; cursor: default; }
+.session .toggle:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
+.session .more { display: flex; flex-direction: column; gap: 6px; }
 .session .day { font-size: 22px; color: #fff; }
 .session .time { font-family: "Public Sans", system-ui, sans-serif; font-weight: 600; color: #fff; font-variant-numeric: tabular-nums; }
 .session .local { font-weight: 400; color: #c9d5e8; }
@@ -133,7 +136,17 @@ h1 { font-size: clamp(46px, min(8vw, 10vh), 92px); font-weight: 500; line-height
 .session.past { opacity: .55; }
 .session.past .join { display: none; }
 .session.past .day::after { content: " · ended"; font-size: 15px; color: #c9d5e8; }
-@media (max-width: 860px) { .sessions { grid-template-columns: 1fr; } }
+@media (max-width: 860px) {
+  .sessions { grid-template-columns: 1fr; gap: 10px; }
+  .session { padding: 0; gap: 0; }
+  /* Narrow screens: each tile shows only the date and time until tapped */
+  .session .toggle { cursor: pointer; padding: 16px 52px 16px 20px; position: relative; gap: 2px; }
+  .session .toggle::after { content: ""; position: absolute; right: 22px; top: 50%; width: 9px; height: 9px; border-right: 2px solid #fff; border-bottom: 2px solid #fff; transform: translateY(-70%) rotate(45deg); transition: transform .2s; }
+  .session .toggle[aria-expanded="true"]::after { transform: translateY(-30%) rotate(225deg); }
+  .session .more { display: none; padding: 0 20px 18px; }
+  .session.open .more { display: flex; }
+  .session .join { margin-top: 4px; }
+}
 
 /* 2. Priorities: three across, staggered */
 .trio { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(20px, 2.6vw, 36px); margin-top: clamp(32px, 5vw, 64px); align-items: start; }
@@ -230,25 +243,37 @@ h1 { font-size: clamp(46px, min(8vw, 10vh), 92px); font-weight: 500; line-height
     </div>
     <ul class="sessions">
       <li class="session" data-start="2026-12-02T01:00:00Z">
-        <p class="day">Tuesday, December 1</p>
-        <p class="time">8:00 PM ET <span class="local"></span></p>
-        <a class="btn join" href="https://yale.zoom.us/j/97733957092" target="_blank" rel="noopener">Join on Zoom</a>
-        <p class="cal">Add to calendar: <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The%20State%20of%20the%20Council%20%28Yale%20College%20Council%29&dates=20261202T010000Z/20261202T020000Z&details=Join%20on%20Zoom%3A%20https%3A//yale.zoom.us/j/97733957092%0AMeeting%20ID%3A%20977%203395%207092%0APhone%3A%20203-432-9666%20or%20646%20568%207788%0A%0AHosted%20by%20the%20Yale%20College%20Council.&location=https%3A//yale.zoom.us/j/97733957092" target="_blank" rel="noopener">Google</a> · <a href="events/state-of-the-council-dec-1.ics">Apple / Outlook</a></p>
-        <p class="dial">Meeting ID 977 3395 7092 · Phone 203-432-9666 or 646 568 7788</p>
+        <button class="toggle" type="button" aria-expanded="false">
+          <span class="day">Tuesday, December 1</span>
+          <span class="time">8:00 PM ET <span class="local"></span></span>
+        </button>
+        <div class="more">
+          <a class="btn join" href="https://yale.zoom.us/j/97733957092" target="_blank" rel="noopener">Join on Zoom</a>
+          <p class="cal">Add to calendar: <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The%20State%20of%20the%20Council%20%28Yale%20College%20Council%29&dates=20261202T010000Z/20261202T020000Z&details=Join%20on%20Zoom%3A%20https%3A//yale.zoom.us/j/97733957092%0AMeeting%20ID%3A%20977%203395%207092%0APhone%3A%20203-432-9666%20or%20646%20568%207788%0A%0AHosted%20by%20the%20Yale%20College%20Council.&location=https%3A//yale.zoom.us/j/97733957092" target="_blank" rel="noopener">Google</a> · <a href="events/state-of-the-council-dec-1.ics">Apple / Outlook</a></p>
+          <p class="dial">Meeting ID 977 3395 7092 · Phone 203-432-9666 or 646 568 7788</p>
+        </div>
       </li>
       <li class="session" data-start="2026-12-05T17:00:00Z">
-        <p class="day">Saturday, December 5</p>
-        <p class="time">12:00 PM ET <span class="local"></span></p>
-        <a class="btn join" href="https://yale.zoom.us/j/99464833176" target="_blank" rel="noopener">Join on Zoom</a>
-        <p class="cal">Add to calendar: <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The%20State%20of%20the%20Council%20%28Yale%20College%20Council%29&dates=20261205T170000Z/20261205T180000Z&details=Join%20on%20Zoom%3A%20https%3A//yale.zoom.us/j/99464833176%0AMeeting%20ID%3A%20994%206483%203176%0APhone%3A%20203-432-9666%20or%20646%20568%207788%0A%0AHosted%20by%20the%20Yale%20College%20Council.&location=https%3A//yale.zoom.us/j/99464833176" target="_blank" rel="noopener">Google</a> · <a href="events/state-of-the-council-dec-5.ics">Apple / Outlook</a></p>
-        <p class="dial">Meeting ID 994 6483 3176 · Phone 203-432-9666 or 646 568 7788</p>
+        <button class="toggle" type="button" aria-expanded="false">
+          <span class="day">Saturday, December 5</span>
+          <span class="time">12:00 PM ET <span class="local"></span></span>
+        </button>
+        <div class="more">
+          <a class="btn join" href="https://yale.zoom.us/j/99464833176" target="_blank" rel="noopener">Join on Zoom</a>
+          <p class="cal">Add to calendar: <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The%20State%20of%20the%20Council%20%28Yale%20College%20Council%29&dates=20261205T170000Z/20261205T180000Z&details=Join%20on%20Zoom%3A%20https%3A//yale.zoom.us/j/99464833176%0AMeeting%20ID%3A%20994%206483%203176%0APhone%3A%20203-432-9666%20or%20646%20568%207788%0A%0AHosted%20by%20the%20Yale%20College%20Council.&location=https%3A//yale.zoom.us/j/99464833176" target="_blank" rel="noopener">Google</a> · <a href="events/state-of-the-council-dec-5.ics">Apple / Outlook</a></p>
+          <p class="dial">Meeting ID 994 6483 3176 · Phone 203-432-9666 or 646 568 7788</p>
+        </div>
       </li>
       <li class="session" data-start="2026-12-08T01:00:00Z">
-        <p class="day">Monday, December 7</p>
-        <p class="time">8:00 PM ET <span class="local"></span></p>
-        <a class="btn join" href="https://yale.zoom.us/j/95181472799" target="_blank" rel="noopener">Join on Zoom</a>
-        <p class="cal">Add to calendar: <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The%20State%20of%20the%20Council%20%28Yale%20College%20Council%29&dates=20261208T010000Z/20261208T020000Z&details=Join%20on%20Zoom%3A%20https%3A//yale.zoom.us/j/95181472799%0AMeeting%20ID%3A%20951%208147%202799%0APhone%3A%20203-432-9666%20or%20646%20568%207788%0A%0AHosted%20by%20the%20Yale%20College%20Council.&location=https%3A//yale.zoom.us/j/95181472799" target="_blank" rel="noopener">Google</a> · <a href="events/state-of-the-council-dec-7.ics">Apple / Outlook</a></p>
-        <p class="dial">Meeting ID 951 8147 2799 · Phone 203-432-9666 or 646 568 7788</p>
+        <button class="toggle" type="button" aria-expanded="false">
+          <span class="day">Monday, December 7</span>
+          <span class="time">8:00 PM ET <span class="local"></span></span>
+        </button>
+        <div class="more">
+          <a class="btn join" href="https://yale.zoom.us/j/95181472799" target="_blank" rel="noopener">Join on Zoom</a>
+          <p class="cal">Add to calendar: <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=The%20State%20of%20the%20Council%20%28Yale%20College%20Council%29&dates=20261208T010000Z/20261208T020000Z&details=Join%20on%20Zoom%3A%20https%3A//yale.zoom.us/j/95181472799%0AMeeting%20ID%3A%20951%208147%202799%0APhone%3A%20203-432-9666%20or%20646%20568%207788%0A%0AHosted%20by%20the%20Yale%20College%20Council.&location=https%3A//yale.zoom.us/j/95181472799" target="_blank" rel="noopener">Google</a> · <a href="events/state-of-the-council-dec-7.ics">Apple / Outlook</a></p>
+          <p class="dial">Meeting ID 951 8147 2799 · Phone 203-432-9666 or 646 568 7788</p>
+        </div>
       </li>
     </ul>
   </div>
@@ -339,6 +364,17 @@ h1 { font-size: clamp(46px, min(8vw, 10vh), 92px); font-weight: 500; line-height
 
 <script>
   // After 15 seconds the arrow draws in beside the Donate button; after 30 seconds the button starts a gentle pulse.
+  // State of the Council tiles: on narrow screens a tap opens or closes a tile's links.
+  var narrow = window.matchMedia("(max-width: 860px)");
+  Array.prototype.forEach.call(document.querySelectorAll(".session .toggle"), function (btn) {
+    btn.addEventListener("click", function () {
+      if (!narrow.matches) return;
+      var li = btn.closest(".session"), open = !li.classList.contains("open");
+      li.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+
   // State of the Council: show each session in the viewer's own time zone, and mark sessions that have ended.
   Array.prototype.forEach.call(document.querySelectorAll(".session"), function (el) {
     var start = new Date(el.getAttribute("data-start"));
